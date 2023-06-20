@@ -9,7 +9,7 @@ WORKDIR /nmf/
 
 # clone NMF main repo and switch to phi-sat-2 branch
 RUN git clone https://github.com/sachavg/nanosat-mo-framework.git
-RUN cd /nmf/nanosat-mo-framework && git checkout testing-isolation
+RUN cd /nmf/nanosat-mo-framework && git checkout isolation-bwrap
 
 # build phi-sat-2 branch of NMF main repo 
 RUN cd /nmf/nanosat-mo-framework && mvn install 
@@ -40,6 +40,7 @@ WORKDIR /nanosat-mo-framework/
 # copy files from previous build and install the NMF Supervisor
 COPY --from=nmfRpiMissionBuilder /nmf/space-file-system/target/space-file-system/nanosat-mo-framework/ /nanosat-mo-framework/
 RUN apk add --no-cache sudo
+RUN apk add --no-cache bwrap
 
 RUN chmod +x fresh_install_busybox.sh && ./fresh_install_busybox.sh
 
